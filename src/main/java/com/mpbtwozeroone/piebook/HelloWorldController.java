@@ -13,7 +13,7 @@ public class HelloWorldController {
                 "<!DOCTYPE html>" +
                         "<html>" +
                         "	<head><title>Hello world!</title></head>" +
-                        "	<body>Hello world!</body>" +
+                        "	<body><h1>Hello world!</h1></body>" +
                         "</html>"
                 ;
     }
