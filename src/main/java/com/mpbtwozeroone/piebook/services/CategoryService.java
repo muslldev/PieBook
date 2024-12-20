@@ -2,38 +2,46 @@ package com.mpbtwozeroone.piebook.services;
 
 import com.mpbtwozeroone.piebook.model.Category;
 import com.mpbtwozeroone.piebook.repositories.CategoryRepository;
+import com.mpbtwozeroone.piebook.requests.CategoryRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public Page<Category> getAllCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
     }
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public Optional<Category> getCategoryById(Long id) {
+        return categoryRepository.findById((long) Math.toIntExact(id));
     }
 
-    public Optional<Category> getCategoryById(Integer id) {
-        return categoryRepository.findById(id);
+    public void createCategory(CategoryRequest categoryRequest) {
+        var category = Category.builder()
+                .type(categoryRequest.getType())
+                .build();
+        categoryRepository.save(category);
     }
 
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
+
+    public Optional<Category> updateCategory(Long id, CategoryRequest categoryRequest) {
+        return categoryRepository.findById((long) Math.toIntExact(id)).map(existingCategory -> {
+            existingCategory.setType(categoryRequest.getType());
+            categoryRepository.save(existingCategory);
+            return existingCategory;
+        });
     }
 
-    public Category updateCategory(Integer id, Category category) {
-        category.setId(id);
-        return categoryRepository.save(category);
-    }
-
-    public void deleteCategory(Integer id) {
-        categoryRepository.deleteById(id);
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById((long) Math.toIntExact(id));
     }
 }

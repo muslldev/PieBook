@@ -1,15 +1,23 @@
 package com.mpbtwozeroone.piebook.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer recipe_id;
+    private Long recipe_id;
 
     @Column(nullable = false)
     private String title;
@@ -24,14 +32,6 @@ public class Recipe {
     private int cookingTime;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
-    public Integer getId() {
-        return recipe_id;
-    }
-
-    public void setId(Integer recipe_id) {
-        this.recipe_id = recipe_id;
-    }
 }

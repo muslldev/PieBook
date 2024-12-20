@@ -1,24 +1,24 @@
 package com.mpbtwozeroone.piebook.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer category_id;
+    private Long category_id;
 
     @Column(nullable = false, unique = true)
     private String type;
-
-    public Integer getId() {
-        return category_id;
-    }
-
-    public void setId(Integer category_id) {
-        this.category_id = category_id;
-    }
 }
