@@ -4,6 +4,7 @@ import com.mpbtwozeroone.piebook.model.Category;
 import com.mpbtwozeroone.piebook.repositories.CategoryRepository;
 import com.mpbtwozeroone.piebook.requests.CategoryRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
 
+    @Autowired
     private final CategoryRepository categoryRepository;
 
     public Page<Category> getAllCategories(Pageable pageable) {
