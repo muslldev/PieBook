@@ -4,6 +4,7 @@ import com.mpbtwozeroone.piebook.model.Category;
 import com.mpbtwozeroone.piebook.requests.CategoryRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.mpbtwozeroone.piebook.services.CategoryService;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryController {
 
+    @Autowired
     private final CategoryService categoryService;
 
     @GetMapping
@@ -40,7 +42,6 @@ public class CategoryController {
         return ResponseEntity.accepted().build();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Category>> updateCategory(
             @PathVariable Long id,
@@ -49,7 +50,6 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.updateCategory(id, categoryRequest));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);

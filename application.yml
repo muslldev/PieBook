@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -10,7 +10,26 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/Oauth
+          jwk-set-uri: http://localhost:9090/realms/Oauth/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:9090/realms/Oauth
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: piebook_client
+            client-secret: ${CLIENT_SECRET}
+            scope: openid
 
-JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-JWT_EXPIRATION: ${JWT_EXPIRATION}
-JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION}
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: TRACE

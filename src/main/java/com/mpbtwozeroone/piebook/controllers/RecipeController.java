@@ -5,6 +5,7 @@ import com.mpbtwozeroone.piebook.requests.RecipeRequest;
 import com.mpbtwozeroone.piebook.services.RecipeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RecipeController {
 
+    @Autowired
     private final RecipeService recipeService;
 
     @GetMapping
@@ -40,7 +42,6 @@ public class RecipeController {
         return ResponseEntity.accepted().build();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Recipe>> updateRecipe(
             @PathVariable Long id,
@@ -49,7 +50,6 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.updateRecipe(id, recipeRequest));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
