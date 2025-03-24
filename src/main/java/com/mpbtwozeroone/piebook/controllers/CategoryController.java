@@ -42,7 +42,6 @@ public class CategoryController {
         return ResponseEntity.accepted().build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Category>> updateCategory(
             @PathVariable Long id,
@@ -51,7 +50,6 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.updateCategory(id, categoryRequest));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);

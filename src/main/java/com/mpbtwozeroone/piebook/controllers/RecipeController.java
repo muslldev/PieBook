@@ -42,7 +42,6 @@ public class RecipeController {
         return ResponseEntity.accepted().build();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Optional<Recipe>> updateRecipe(
             @PathVariable Long id,
@@ -51,7 +50,6 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.updateRecipe(id, recipeRequest));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
         recipeService.deleteRecipe(id);
