@@ -18,14 +18,10 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET,"/categories/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/categories/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/categories/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/categories/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/recipes/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/recipes/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/recipes/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/recipes/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/recipes/**","/categories/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/recipes/**","/categories/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/recipes/**","/categories/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/recipes/**","/categories/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
