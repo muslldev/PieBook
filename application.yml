@@ -27,6 +27,17 @@ spring:
             client-secret: ${CLIENT_SECRET}
             scope: openid
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  metrics:
+    tags:
+      application: piebook
+
 server:
   port: 8080
 
