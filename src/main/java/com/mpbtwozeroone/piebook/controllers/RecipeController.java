@@ -3,6 +3,8 @@ package com.mpbtwozeroone.piebook.controllers;
 import com.mpbtwozeroone.piebook.model.Recipe;
 import com.mpbtwozeroone.piebook.requests.RecipeRequest;
 import com.mpbtwozeroone.piebook.services.RecipeService;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.binder.MeterBinder;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,18 +14,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/recipes")
 @RequiredArgsConstructor
 public class RecipeController {
-
     @Autowired
     private final RecipeService recipeService;
 
+    private final MeterRegistry meterRegistry;
+
     @GetMapping
     public ResponseEntity<Page<Recipe>> getAllRecipes(Pageable pageable) {
+        meterRegistry.counter("recipes_count", List.of()).increment();
         return ResponseEntity.ok(recipeService.getAllRecipes(pageable));
     }
 

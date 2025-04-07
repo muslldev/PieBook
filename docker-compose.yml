@@ -40,6 +40,12 @@ services:
     command:
       - "start-dev"
 
+  grafana-loki:
+    container_name: piebook_loki
+    image: grafana/loki:2.9.4
+    ports:
+      - 3100:3100
+
 networks:
   keycloak-network:
     driver: bridge
