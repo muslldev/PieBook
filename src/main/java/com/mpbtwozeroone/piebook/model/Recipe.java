@@ -17,7 +17,8 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recipe_id;
+    @Column(name = "recipe_id")
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -34,4 +35,8 @@ public class Recipe {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_file_id", referencedColumnName = "id")
+    private FileStorage imageFile;
 }

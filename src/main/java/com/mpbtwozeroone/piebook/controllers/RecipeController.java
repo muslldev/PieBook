@@ -4,15 +4,15 @@ import com.mpbtwozeroone.piebook.model.Recipe;
 import com.mpbtwozeroone.piebook.requests.RecipeRequest;
 import com.mpbtwozeroone.piebook.services.RecipeService;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.binder.MeterBinder;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +21,9 @@ import java.util.Optional;
 @RequestMapping("/recipes")
 @RequiredArgsConstructor
 public class RecipeController {
+
     @Autowired
     private final RecipeService recipeService;
-
     private final MeterRegistry meterRegistry;
 
     @GetMapping
@@ -39,12 +39,12 @@ public class RecipeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> createRecipe(
-            @Valid @RequestBody RecipeRequest recipeRequest
-    ) {
+            @Valid @ModelAttribute RecipeRequest recipeRequest
+            ) {
         recipeService.createRecipe(recipeRequest);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")

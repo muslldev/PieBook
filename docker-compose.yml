@@ -46,6 +46,24 @@ services:
     ports:
       - 3100:3100
 
+  minio:
+    image: minio/minio
+    container_name: piebook_minio
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+        interval: 30s
+        timeout: 20s
+        retries: 3
+
 networks:
   keycloak-network:
     driver: bridge
@@ -54,4 +72,6 @@ volumes:
   postgres_data:
     driver: local
   keycloak_data:
+    driver: local
+  minio_data:
     driver: local
